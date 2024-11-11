@@ -1,0 +1,32 @@
+# playbook.yaml
+---
+
+- name: 
+  # hosts: agents_BofiOnPremise2017
+  # hosts: agents_test_BofiOnPrem2017
+  gather_facts: true
+  vars_prompt:
+    - name: var_az_token
+      prompt: ADO Token
+    - name: var_az_win_password
+      prompt: User Password
+  # States:
+  # Doc: https://docs.ansible.com/ansible/latest/collections/chocolatey/chocolatey/win_chocolatey_module.html#parameter-state
+  vars:
+    var_choco_state: latest 
+    # Choices:
+      # "absent"
+      # "downgrade"
+      # "upgrade"
+      # "latest"
+      # "present" ← (default)
+      # "reinstalled"
+    var_agent_url: "https://vstsagentpackage.azureedge.net/agent/3.246.0/vsts-agent-win-x64-3.246.0.zip"
+    var_az_agent_folder_path: "D:\\agent"
+    var_az_pool: "Prod-Support-Test"
+    var_az_url: "https://bofaz.visualstudio.com"
+    var_az_win_user: "mybofi\\deployuser"
+
+  roles:
+  # - { role: choco_change }
+  - { role: ado_agent }

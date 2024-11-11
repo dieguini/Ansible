@@ -1,0 +1,39 @@
+#  uninstall_playbook.yaml
+---
+
+- name: Dotnet Any Uninstall
+  # hosts: env_qa_olb
+  # hosts: env_stg_olb
+  # hosts: env_uat_olb
+  # hosts: env_prod_olb
+  # hosts: env_stg_identity
+  # hosts: env_uat_enroll
+  # hosts: agents_test_BofiOnPrem2017
+  gather_facts: yes  # Collect facts about the remote hosts
+
+  # Pre-requisits:
+  # For this to work
+  # 1. Download package must be in format url/to/path/exe_at_the_end.exe or url/to/path/msi_at_the_end.msi
+  # 2. Paste the exact url of the package that was previously install
+
+  # Dotnet: https://dotnet.microsoft.com/en-us/download/dotnet/x.0
+
+  vars:
+    # You can change this ^_^ (var_url)
+    var_url: "https://download.visualstudio.microsoft.com/download/pr/eb04a61f-75c3-43dd-93d9-b6a7248116c7/f884863125730a39d7fa4139a00c0f99/aspnetcore-runtime-8.0.4-win-x64.exe"
+    # Examples: 
+    ## https://download.visualstudio.microsoft.com/download/pr/e2ced2b3-e1a5-401a-bcc9-6689e4eea673/93f77de4a39a219d775b403b7ef0cf58/aspnetcore-runtime-8.0.5-win-x64.exe
+    ## https://download.visualstudio.microsoft.com/download/pr/0ff148e7-bbf6-48ed-bdb6-367f4c8ea14f/bd35d787171a1f0de7da6b57cc900ef5/windowsdesktop-runtime-8.0.5-win-x64.exe
+    ## https://download.visualstudio.microsoft.com/download/pr/77284554-b8df-4697-9a9e-4c70a8b35f29/6763c16069d1ab8fa2bc506ef0767366/dotnet-runtime-8.0.5-win-x64.exe
+    ## https://download.visualstudio.microsoft.com/download/pr/f02cf3ff-1426-4361-b732-fd96f1fe4cce/f5800224ea1fb316b74357775af99e9b/dotnet-sdk-8.0.205-win-x64.exe
+    
+    # Doc: https://learn.microsoft.com/en-us/dotnet/core/additional-tools/uninstall-tool?tabs=windows
+    var_uninstall_tool_url: "https://github.com/dotnet/cli-lab/releases/download/1.7.521001/dotnet-core-uninstall-1.7.521001.msi"
+    
+    # !!! Don't move this !! If you don't knwo what are you doing
+    var_sdk_word: "sdk"
+    var_asp_word: "aspnetcore"
+    var_regex_pattern: '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)?$'
+  
+  roles: 
+  - { role: uninstall_any_dotnet}

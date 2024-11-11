@@ -1,0 +1,52 @@
+{
+    "activitycontinuation": {
+        "apps": [ "X5SHW6XCJW.com.axos.udb" ]
+    },
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appIDs": [ "X5SHW6XCJW.com.axos.udb" ],
+                "components": [
+                    {
+                        "/": "/download-app"
+                    },
+                    {
+                        "/": "/invest/*"
+                    }
+                    ,
+                    {
+                        "/": "/pages/summit-savings"
+                    }
+                      ,
+                    {
+                        "/": "/pages/select-bundle"
+                    }
+                      ,
+                    {
+                        "/": "/pages/value-bundle"
+                    }
+                      ,
+                    {
+                        "/": "/pages/advantage-bundle"
+                    }
+                        ,
+                    {
+                         "/": "/pages/axos-one"
+                    }
+
+                ],
+                "appID": "X5SHW6XCJW.com.axos.udb",
+                "paths": [
+                    "/download-app",
+                    "/invest/*",
+                    "/pages/summit-savings",
+                    "/pages/select-bundle",
+                    "/pages/value-bundle",
+                    "/pages/advantage-bundle",
+                    "/pages/axos-one"
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,8 @@
+# roles/choco_installer/tasks/main.yml
+---
+
+- name: Chocolatey - Multiple packages change state
+  win_chocolatey:
+    name: "{{ item }}"
+    state: "{{ var_choco_state }}"
+  loop: "{{ chocolatey_packages }}"

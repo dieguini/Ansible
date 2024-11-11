@@ -1,0 +1,15 @@
+
+---
+
+- name: Reset IIS Service
+  # hosts: env_all
+  
+  tasks:
+
+  - name: IIS Reset
+    ansible.windows.win_command: iisreset
+    register: iisreset
+
+  - name: IIS Reset - Show
+    debug:
+      var: iisreset

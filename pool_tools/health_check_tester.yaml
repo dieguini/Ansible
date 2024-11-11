@@ -1,0 +1,89 @@
+# health_check_tester.yaml
+---
+
+- name: Health Check Playbook
+  hosts: localhost
+  gather_facts: yes
+  vars:
+    title: "Health Check"
+    base_urls:
+      - "https://PSDW-OLPPW01.axdmz.axosbank.com"
+      - "https://PSDW-OLPPW02.axdmz.axosbank.com"
+    headers:
+      host: "olppapi.prod.axosbank.com"
+    endpoint_path: "/api/info"
+    log_file: "HealthCheckLog_{{ ansible_date_time.date }}_{{ ansible_date_time.hour }}-{{ ansible_date_time.minute }}-{{ ansible_date_time.second }}.txt"
+
+  tasks:
+    - name: Ensure the log file exists
+      file:
+        path: "{{ log_file }}"
+        state: touch
+      delegate_to: localhost
+
+    - name: Create a log file header
+      lineinfile:
+        path: "{{ log_file }}"
+        line: |
+          ########################################################################
+          Title Reference: {{ title }}
+          ########################################################################
+          Health Check Log - Execution Time: {{ ansible_date_time.iso8601 }}
+      delegate_to: localhost
+
+    - name: Perform health checks
+      block:
+        - name: Combine base URL and endpoint path
+          set_fact:
+            url: "{{ item }}/{{ endpoint_path }}"
+          loop: "{{ base_urls }}"
+
+        - name: Resolve IP address of the hostname
+          shell: "dig +short {{ url | urlsplit('hostname') }}"
+          register: dns_lookup
+          changed_when: false
+          ignore_errors: yes
+
+        - name: Send HTTP request to URL
+          uri:
+            url: "{{ url }}"
+            headers: "{{ headers }}"
+            method: GET
+          register: response
+          ignore_errors: yes
+
+        # - name: Log health check result to file
+        #   lineinfile:
+        #     path: "{{ log_file }}"
+        #     create: yes
+        #     line: |
+        #       ---------------------------------------------------------------------
+        #       URL: {{ url }}
+        #       IP Address: {{ dns_lookup.stdout | default('IP lookup failed') }}
+        #       Status: {{ 'Success' if response.status == 200 else 'Failed' }}
+        #       Response: {{ response.content | default(response.msg) }}
+        #       ---------------------------------------------------------------------
+        #   delegate_to: localhost
+
+        - name: Append health check result to log file
+          copy:
+            dest: "{{ log_file }}"
+            content: |
+              ---------------------------------------------------------------------
+              URL: {{ url }}
+              IP Address: {{ dns_lookup.stdout | default('IP lookup failed') }}
+              Status: {{ 'Success' if response.status == 200 else 'Failed' }}
+              Response: {{ response.content | default(response.msg) }}
+              ---------------------------------------------------------------------
+            remote_src: yes
+            mode: '0644'
+          delegate_to: localhost
+
+        - name: Display health check result on console
+          debug:
+            msg:
+              - "Response from {{ url }} :"
+              - "IP Address: {{ dns_lookup.stdout | default('IP lookup failed') }}"
+              - "Status: {{ 'Success' if response.status == 200 else 'Failed' }}"
+              - "{{ response.content | default(response.msg) }}"
+          loop: "{{ base_urls }}"

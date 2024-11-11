@@ -1,0 +1,14 @@
+# restart_servers.yaml
+---
+
+- name: Restart Servers
+  gather_facts: true # For "ansible_facts" variable
+  # hosts: agents_test_BofiOnPrem2017
+  # hosts: agents_QAAutomation
+  # hosts: agents_new_BofiOnPremise2017
+
+  tasks:
+  # Additionally, you can add a delay before running the next task
+  - name: Reboot a machine that takes time to settle after being booted
+    ansible.windows.win_reboot:
+      post_reboot_delay: 120

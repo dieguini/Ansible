@@ -1,0 +1,31 @@
+#  install_playbook.yaml
+---
+
+- name: Dotnet Any Install
+  # hosts: env_qa_olb
+  # hosts: env_stg_olb
+  # hosts: env_uat_olb
+  # hosts: env_prod_olb
+  # hosts: env_stg_identity
+  # hosts: env_uat_enroll
+  # hosts: agents_test_BofiOnPrem2017
+  # hosts: agents_QAAutomation
+  # hosts: agents_BofiOnPremise2017
+  gather_facts: yes  # Collect facts about the remote hosts
+
+  # Pre-requisits:
+  # For this to work
+  # 1. Download package must be in format url/to/path/exe_at_the_end.exe or url/to/path/msi_at_the_end.msi
+
+  # Dotnet: https://dotnet.microsoft.com/en-us/download/dotnet/x.0
+  vars:
+    # You can change this ^_^ (var_url)
+    var_url: "https://download.visualstudio.microsoft.com/download/pr/f5f1c28d-7bc9-431e-98da-3e2c1bbd1228/864e152e374b5c9ca6d58ee953c5a6ed/dotnet-sdk-8.0.401-win-x64.exe"
+    # Examples: 
+    ## https://download.visualstudio.microsoft.com/download/pr/e2ced2b3-e1a5-401a-bcc9-6689e4eea673/93f77de4a39a219d775b403b7ef0cf58/aspnetcore-runtime-8.0.5-win-x64.exe
+    ## https://download.visualstudio.microsoft.com/download/pr/0ff148e7-bbf6-48ed-bdb6-367f4c8ea14f/bd35d787171a1f0de7da6b57cc900ef5/windowsdesktop-runtime-8.0.5-win-x64.exe
+    ## https://download.visualstudio.microsoft.com/download/pr/77284554-b8df-4697-9a9e-4c70a8b35f29/6763c16069d1ab8fa2bc506ef0767366/dotnet-runtime-8.0.5-win-x64.exe
+    ## https://download.visualstudio.microsoft.com/download/pr/f02cf3ff-1426-4361-b732-fd96f1fe4cce/f5800224ea1fb316b74357775af99e9b/dotnet-sdk-8.0.205-win-x64.exe
+
+  roles: 
+  - { role: install_any_dotnet}

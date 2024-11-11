@@ -1,0 +1,61 @@
+# build_servers/roles/ado_agent/tasks/main.yaml
+---  
+- name: Temp Directory - Create temporary directory
+  ansible.windows.win_tempfile:
+    state: directory
+    suffix: build
+  register: temp_dir
+- name: Temp Directory - Print the path
+  debug:
+    var: temp_dir.path
+
+# Doc: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/split_filter.html
+- name: String - Splitting
+  set_fact:
+    url_split: "{{ var_agent_url | split('/') }}"
+- name: String - Saving Executable name
+  set_fact:
+    var_zip: "{{ url_split | last }}"
+
+- name: Install - Download - {{ var_agent_url }}
+  ansible.windows.win_get_url:
+    url: "{{ var_agent_url }}"
+    dest: "{{ temp_dir.path }}\\{{ var_zip }}"  # Destination path where the installer will be saved
+  register: ado_installer_output
+
+- name: Install - Output
+  debug:
+    var: ado_installer_output.dest
+
+- name: Directory - Create - {{ var_az_agent_folder_path }}
+  ansible.windows.win_file:
+    path: "{{ var_az_agent_folder_path }}"
+    state: directory
+  register: dir_agent
+
+- name: Install - Unzip - {{ var_zip }}
+  community.windows.win_unzip:
+    src: "{{ ado_installer_output.dest }}"
+    dest: "{{ var_az_agent_folder_path }}"
+
+
+# - name: Run a Powershell script on a windows host
+#   # script: subdirectories/under/path/with/your/playbook/script.ps1
+#   ansible.windows.win_shell: "{{ lookup('file', 'roles/ado_agent/scripts/ado_agent_install.ps1')}}; Configure-Agent -AgentPath 'D:\\agent\config' -Pool 'Prod-Support-Test' -Url 'https://bofaz.visualstudio.com' -Token 'CelNQrLjswkoVwBZ2XgQgMiBJ16TRngduh4ze7dtFzLxkdSpg8cVJQQJ99AKACAAAAAtkmrmAAASAZDOySkB' -WinUser 'mybofi\\deployuser' -WinPassword 'V(Dc7Og1HlDu@21709op1rfgct'"  
+
+- name: "showing playbook_dir"
+  debug:
+    msg: "{{ playbook_dir }}"
+
+- name: Install - Agent - Script
+  script: "{{ playbook_dir }}/roles/ado_agent/scripts/ado_agent_install.ps1 -AgentPath {{ var_az_agent_folder_path }} -Pool '{{ var_az_pool }}' -Url '{{ var_az_url }}' -Token '{{ var_az_token }}' -WinUser '{{ var_az_win_user }}' -WinPassword '{{ var_az_win_password }}'"
+  register: ado_installer_script_output
+- name: Install - Agent - Script - Output
+  debug:
+    var: ado_installer_script_output.stdout_lines
+
+
+- name: Clean - Delete temporary directory
+  ansible.windows.win_file:
+    state: absent
+    path: "{{ temp_dir.path }}"

@@ -1,0 +1,19 @@
+# Doc: https://docs.ansible.com/ansible/latest/collections/community/windows/win_iis_webapppool_module.html
+
+---
+- name: Get all bindings of IIS
+  hosts: pool_OnlineBanking_Api
+  gather_facts: no
+
+  tasks:
+    - name: Run PowerShell script to get bindings of IIS
+      win_shell: |
+        if (-not (Get-Module -Name WebAdministration -ErrorAction SilentlyContinue)) {
+            Import-Module WebAdministration
+        }
+        $bindings = Get-WebBinding
+        $bindings
+      register: iis_bindings
+
+    - debug:
+        var: iis_bindings.stdout

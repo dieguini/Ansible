@@ -1,0 +1,31 @@
+#  multi_install_playbook.yaml
+---
+
+- name: Dotnet Any Install
+  # hosts: env_qa_olb
+  # hosts: env_stg_olb
+  # hosts: env_uat_olb
+  # hosts: env_prod_olb
+  # hosts: env_stg_identity
+  # hosts: env_uat_enroll
+  # hosts: agents_test_BofiOnPrem2017
+  # hosts: agents_QAAutomation
+  # hosts: env_stg_bankingcoreapi
+  
+  gather_facts: yes  # Collect facts about the remote hosts
+
+  # Pre-requisits:
+  # For this to work
+  # 1. Download package must be in format url/to/path/exe_at_the_end.exe or url/to/path/msi_at_the_end.msi
+
+  # Dotnet: https://dotnet.microsoft.com/en-us/download/dotnet/x.0
+
+  roles: 
+  - role: install_any_dotnet
+    vars:
+      # Example: 
+      # var_url: "https://download.visualstudio.microsoft.com/download/pr/b336ee1f-b26c-4a03-958e-1e8a0b3cbf3e/afdfe9f8130098cb759ea933c66806bb/aspnetcore-runtime-8.0.8-win-x64.exe"
+  - role: install_any_dotnet
+    vars:
+      # Example: 
+      # var_url: "https://download.visualstudio.microsoft.com/download/pr/cc913baa-9bce-482e-bdfc-56c4b6fafd10/e3f24f2ab2fc02b395c1b67f5193b8d1/dotnet-runtime-8.0.8-win-x64.exe"

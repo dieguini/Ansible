@@ -1,0 +1,19 @@
+---
+- name: Present Pools
+  hosts: pool_SecuritiesAPI
+  # hosts: pool_IdentityServer
+  # hosts: pool_PropertiesApi
+  # hosts: pool_OnlineBanking_Web
+  # hosts: pool_OnlineBanking_Api
+  # hosts: pool_UDBLoginApi
+  # hosts: pool_UDBLoginWeb
+  
+  # hosts: pool_PropertiesAPI
+  # hosts: pool_UDBAPI
+  # hosts: pool_SecuritiesAPI
+  # hosts: pool_SecuritiesAPI
+  
+  tags: win_iis_webapp_present
+  
+  roles:
+    - { role: win_iis_webapp_present }

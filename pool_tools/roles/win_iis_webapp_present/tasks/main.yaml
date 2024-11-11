@@ -1,0 +1,8 @@
+# pool_tools/roles/win_iis_webapp_present/tasks
+---
+
+- name: Return information about an existing application pool
+  community.windows.win_iis_webapppool:
+    name: "{{ item.pool }}"
+    state: absent
+  loop: "{{ IIS_POOL }}"

@@ -1,0 +1,10 @@
+# roles/choco_installer/defaults/main.yml
+---
+# Docs: https://chocolatey.org
+chocolatey_packages:
+- notepadplusplus
+- postman
+- vscode
+- git
+# - googlechrome [Latest checksum no valid]
+# - treesizefree [Not supported for windows servers]

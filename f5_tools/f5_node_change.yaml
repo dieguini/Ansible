@@ -1,0 +1,88 @@
+# f5_node_change.yaml
+---
+
+- name: BIG-IP SETUP
+  hosts: lb_prod
+  connection: local
+  gather_facts: false
+
+  vars:
+    provider:
+      server: "{{inventory_hostname}}"
+      user: "{{ansible_user}}"
+      password: "{{ansible_ssh_pass}}"
+      server_port: 443
+      validate_certs: no
+    nodes:
+      stg:
+        two_group:
+          g1:
+          - node: "172.20.26.108"
+          - node: "172.20.26.109"
+          g2:
+          - node: "10.50.55.55"
+          - node: "10.50.55.56"
+      prod:
+        two_group:
+          g1:
+          - node: "10.150.2.230"
+          - node: "10.150.2.133"
+          g2:
+          - node: "10.150.2.134"
+          - node: "10.150.2.137"
+          g3:
+          - node: "10.150.2.231"
+          - node: "10.150.2.138"
+          g4:
+          - node: "10.150.2.164"
+          - node: "10.150.2.166"
+          g5:
+          - node: "10.150.2.141"
+          - node: "10.150.2.142"
+          g6:
+          - node: "10.150.2.168"
+          - node: "10.150.2.170"
+        three_group:
+          g1:
+          - node: "10.150.2.230"
+          - node: "10.150.2.133"
+          - node: "10.150.2.134"
+          g2:
+          - node: "10.150.2.137"
+          - node: "10.150.2.231"
+          - node: "10.150.2.138"
+          g3:
+          - node: "10.150.2.164"
+          - node: "10.150.2.166"
+          - node: "10.150.2.141"
+          g4:
+          - node: "10.150.2.142"
+          - node: "10.150.2.168"
+          - node: "10.150.2.170"
+        four_group:
+          g1:
+          - node: "10.150.2.230"
+          - node: "10.150.2.133"
+          - node: "10.150.2.134"
+          - node: "10.150.2.137"
+          g2:
+          - node: "10.150.2.231"
+          - node: "10.150.2.138"
+          - node: "10.150.2.164"
+          - node: "10.150.2.166"
+          g3:
+          - node: "10.150.2.141"
+          - node: "10.150.2.142"
+          - node: "10.150.2.168"
+          - node: "10.150.2.170"
+
+  tasks:
+
+  - name: Force node disabled
+    bigip_node:
+      # state: disabled
+      state: enabled
+      name: "{{ item.node }}"
+      provider: "{{ provider }}"
+    loop:
+     "{{nodes['prod']['four_group']['g3']}}"

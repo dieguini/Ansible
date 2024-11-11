@@ -1,0 +1,33 @@
+# dotnet_get_data.yaml
+---
+
+- name: Dotnet search
+  # hosts: env_uat_enroll
+  # hosts: env_uat
+  # hosts: env_uat_new
+  # hosts: env_stg_bankingcoreapi
+  # hosts: env_prod_bankingcoreapi
+  # hosts: agents_DEVAxosOnPremises
+  # hosts: agents_QAAutomation
+  # hosts: olb_servers
+  # hosts: admin_portal_servers
+  # hosts: env_all
+
+  tasks:
+  - name: Run the executable with the 'Dotnet list sdks' argument 
+    ansible.windows.win_command:
+      cmd: dotnet --list-sdks
+    register: dotnet_output
+
+  - name: Print the output
+    debug:
+      var: dotnet_output.stdout_lines
+
+  - name: Run the executable with the 'Dotnet list runtimes' argument 
+    ansible.windows.win_command:
+      cmd: dotnet --list-runtimes
+    register: dotnet_runtimes_output
+
+  - name: Print the output
+    debug:
+      var: dotnet_runtimes_output.stdout_lines

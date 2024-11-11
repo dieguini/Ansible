@@ -1,0 +1,22 @@
+# nvm_playbook.yaml
+---
+
+- name: Get Test SSH Connection
+  gather_facts: true # For "ansible_facts" variable
+  hosts: agents_QAAutomationTestIM
+  
+  # TODO: become but in group vars or as var encrypted
+  become: yes
+
+  tasks:
+  - name: Print hostname
+    ansible.builtin.debug:
+      msg: 
+      - "Hostname: {{ ansible_facts['hostname'] }}"
+  
+  - name: Install Node and NPM
+    ansible.builtin.apt:
+      state: absent
+      pkg:
+      - nodejs
+      - npm

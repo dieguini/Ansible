@@ -1,0 +1,38 @@
+# copy_file.yaml
+---
+
+- name: Copy file
+  gather_facts: true # For "ansible_facts" variable
+  # hosts: env_qa
+  # hosts: env_stg
+  # hosts: env_uat
+
+  vars:
+    # QA
+    # path_dir: C:\inetpub\wwwroot\sitecore-cd.qa.axosbank.com\.well-known
+    # path_dir: C:\inetpub\wwwroot\sitecore-cd.qa.axosbank.com
+    # STG
+    # path_dir: C:\inetpub\wwwroot\cd.stg.axosbank.com\.well-known 
+    # path_dir: C:\inetpub\wwwroot\cd.stg.axosbank.com 
+    # UAT
+    # path_dir: C:\inetpub\wwwroot\cd.uat.axosbank.com\.well-known 
+    # path_dir: C:\inetpub\wwwroot\cd.uat.axosbank.com
+
+  tasks:
+  
+  - name: Copy a single file
+    ansible.windows.win_copy:
+      src: /home/dsalvatierra/AxosAnsible/host_tools/copy_folder_helper/apple-app-site-association
+      dest: "{{ path_dir }}"
+      force: true
+
+  - name: Dir command - Execution
+    ansible.windows.win_powershell:
+      script: |
+        dir {{ path_dir }}
+    register: dir_output
+
+  - name: Dir command - Output
+    debug:
+      var: dir_output.output
+

@@ -1,0 +1,8 @@
+# host_tools/roles/win_reboot/tasks
+---
+
+- name: Reboot Win Machine
+  ansible.windows.win_reboot:
+    msg: "Ansible reboot"
+    pre_reboot_delay: 5
+    post_reboot_delay: 20

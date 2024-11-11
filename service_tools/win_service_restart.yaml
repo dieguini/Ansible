@@ -1,0 +1,10 @@
+# win_service_restart.yaml
+---
+- name: Restart Service
+
+  # hosts: win_service_apigee_stg
+  # hosts: win_service_apigee_qa
+  # hosts: win_service_apigee
+  
+  roles:
+    - { role: win_serv_restart }

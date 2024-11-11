@@ -1,0 +1,14 @@
+# get_ips.yaml
+---
+
+- name: Get IPs
+  gather_facts: true # For "ansible_facts" variable
+  # hosts: olb_servers
+
+  tasks:
+  - name: Print all available facts
+    ansible.builtin.debug:
+      msg: 
+      - "Hostname: {{ ansible_facts['hostname'] }}"
+      - "IP Addresses: 
+      {{ ansible_facts['ip_addresses'] }}"

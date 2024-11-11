@@ -1,0 +1,17 @@
+# npm_install_borrow.yaml
+---
+
+- name: NPM Install Bower Globally
+  # hosts: agents_BofiOnPrem2017_new
+
+  tasks:
+  - name: PS - NPM Install Bower Globally 
+    ansible.windows.win_powershell:
+      script: | 
+        npm install -g bower
+    register: npm_output
+
+  - name: Print the output
+    debug:
+      var: npm_output.output
+      

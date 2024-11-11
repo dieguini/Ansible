@@ -1,0 +1,8 @@
+# https://docs.ansible.com/ansible/latest/collections/community/windows/win_iis_webapppool_module.html
+---
+
+- name: Start existing application pool
+  hosts: pool_BankingCoreAPI
+  tags: win_iis_webapppool_start
+  roles:
+    - windows_win_iis_webapppool

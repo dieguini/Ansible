@@ -1,0 +1,9 @@
+- name: Check if a service is installed
+  ansible.windows.win_service:
+    name: "{{ item.service }}"
+  register: service_info
+  loop: "{{ WIN_SERV }}"
+
+- name: Print service data
+  debug:
+    var: service_info
